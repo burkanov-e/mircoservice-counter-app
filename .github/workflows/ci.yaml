@@ -1,0 +1,46 @@
+name: Docker Build
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - develop
+
+jobs:
+  # extract pr metadata
+  extract-pr-metadata:
+    runs-on: ubuntu-latest
+    outputs:
+      pr-merged-commit-sha: ${{ github.event.pull_request.merge_commit_sha }}
+
+  # docker-image-build:
+  #   if: github.event.pull_request.merged == true
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v2
+
+  #     - name: Build Docker image
+  #       uses: docker/build-push-action@v4
+  #       with:
+  #         context: .
+  #         push: false
+  # tags:
+
+  # Optional: Push to Docker registry
+  # - name: Login to Docker Hub
+  #   uses: docker/login-action@v2
+  #   with:
+  #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+  # - name: Push to Docker Hub
+  #   uses: docker/build-push-action@v4
+  #   with:
+  #     context: .
+  #     push: true
+  #     tags: yourusername/my-app:latest

@@ -1,12 +1,12 @@
 name: Docker Build
 
 on:
-  push:
-    # pull_request:
-    #   types:
-    #     - closed
-    branches:
-      - develop
+  # push:
+  pull_request:
+    types:
+      - closed
+  branches:
+    - develop
 
 jobs:
   # extract pr metadata

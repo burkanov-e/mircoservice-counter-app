@@ -18,8 +18,8 @@ jobs:
       - name: get-commit-sha
         id: commit-sha
         run: |
-          SHA_OUTPUT=$(echo "${{ github.event.pull_request.merge_commit_sha }} | cut -c 1-7")
-          echo "pr-merged-commit-sha=$SHA_OUTPUT >> $GITHUB_OUTPUT"
+          SHA_OUTPUT=$(echo "${{ github.event.pull_request.merge_commit_sha }}" | cut -c 1-7)
+          echo "pr-merged-commit-sha=$SHA_OUTPUT" >> "$GITHUB_OUTPUT"
 
   docker-image-build:
     # if: github.event.pull_request.merged == true

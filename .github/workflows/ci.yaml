@@ -13,11 +13,13 @@ jobs:
   extract-pr-metadata:
     runs-on: ubuntu-latest
     outputs:
-      pr-merged-commit-sha: ${{ github.event.pull_request.merge_commit_sha }}
+      pr-merged-commit-sha: ${{ steps.commit-sha.outputs.pr-merged-commit-sha }}
     steps:
-      - name: echo pr-merged-commit-sha
+      - name: get-commit-sha
+        id: commit-sha
         run: |
-          echo "PR merged commit SHA: ${{ github.event.pull_request.merge_commit_sha }}"
+          SHA_OUTPUT=$(echo "${{ github.event.pull_request.merge_commit_sha }} | cut -c 1-7")
+          echo "pr-merged-commit-sha=$SHA_OUTPUT >> $GITHUB_OUTPUT"
 
   docker-image-build:
     # if: github.event.pull_request.merged == true
@@ -29,7 +31,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t counter-app-docker/microservice-counter-app:${{ github.event.pull_request.merge_commit_sha }} .
+          docker build -t counter-app-docker/microservice-counter-app:${{ needs.extract-pr-metadata.outputs.pr-merged-commit-sha }} .
           # docker tag counter-app-docker/microservice-counter-app:${{ github.event.pull_request.merge_commit_sha }} counter-app-docker/microservice-counter-app:latest
           # docker push counter-app-docker/microservice-counter-app:latest
 

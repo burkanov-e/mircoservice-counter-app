@@ -5,8 +5,8 @@ on:
   pull_request:
     types:
       - closed
-  branches:
-    - develop
+    branches:
+      - develop
 
 jobs:
   # extract pr metadata

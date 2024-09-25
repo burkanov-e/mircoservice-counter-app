@@ -1,9 +1,10 @@
 name: Docker Build
 
 on:
-  pull_request:
-    types:
-      - closed
+  push:
+    # pull_request:
+    #   types:
+    #     - closed
     branches:
       - develop
 
@@ -13,6 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       pr-merged-commit-sha: ${{ github.event.pull_request.merge_commit_sha }}
+    steps:
+      - name: echo pr-merged-commit-sha
+        run: |
+          echo "PR merged commit SHA: ${{ github.event.pull_request.merge_commit_sha }}"
 
   # docker-image-build:
   #   if: github.event.pull_request.merged == true

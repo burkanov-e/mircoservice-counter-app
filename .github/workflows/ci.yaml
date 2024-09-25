@@ -27,15 +27,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
       - name: Build Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: false
-          tags: counter-app-docker/microservice-counter-app:${{ needs.extract-pr-metadata.outputs.pr-merged-commit-sha }}
+        run: |
+          docker build -t counter-app-docker/microservice-counter-app:${{ github.event.pull_request.merge_commit_sha }} .
+          # docker tag counter-app-docker/microservice-counter-app:${{ github.event.pull_request.merge_commit_sha }} counter-app-docker/microservice-counter-app:latest
+          # docker push counter-app-docker/microservice-counter-app:latest
 
   # Optional: Push to Docker registry
   # - name: Login to Docker Hub
@@ -49,4 +45,4 @@ jobs:
   #   with:
   #     context: .
   #     push: true
-  #     tags: yourusername/my-app:latest
+  #     tags: counter-app-docker/my-app:latest
